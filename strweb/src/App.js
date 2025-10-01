@@ -1,7 +1,7 @@
 import './App.css';
 import UsersAPI from "./api/services";
-import UsersTable from "./Table";
-import UserForm from "./Form";
+import UsersTable from "./components/Table";
+import UserForm from "./components/Form";
 import { useState } from "react";
 
 const initialUsers = UsersAPI.all();
@@ -22,6 +22,15 @@ function App() {
         }
     };
 
+    const updateUser = (updatedUser) => {
+        const result = UsersAPI.update(updatedUser);
+        if (result) {
+            setUsers(users.map(user => 
+                user.id === updatedUser.id ? updatedUser : user
+            ));
+        }
+    };
+
     return (
         <div className="App">
             <div className="container">
@@ -34,7 +43,8 @@ function App() {
                 
                 <UsersTable 
                     users={users} 
-                    deleteUser={deleteUser} 
+                    deleteUser={deleteUser}
+                    updateUser={updateUser}
                 />
             </div>
         </div>

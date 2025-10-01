@@ -24,7 +24,6 @@ const UsersAPI = {
     },
 
     add: function(user) {
-        // Валидация
         if (!user.firstName?.trim() || !user.lastName?.trim() || !user.email?.trim()) {
             throw new Error('Все поля обязательны для заполнения');
         }
@@ -34,7 +33,6 @@ const UsersAPI = {
             throw new Error('Введите корректный email');
         }
 
-        // Генерация ID
         if (!user.id) {
             const maxId = this.users.reduce((max, current) => 
                 current.id > max ? current.id : max, 0);
@@ -46,12 +44,21 @@ const UsersAPI = {
     },
 
     update: function(updatedUser) {
+        if (!updatedUser.firstName?.trim() || !updatedUser.lastName?.trim() || !updatedUser.email?.trim()) {
+            throw new Error('Все поля обязательны для заполнения');
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(updatedUser.email)) {
+            throw new Error('Введите корректный email');
+        }
+
         const index = this.users.findIndex(user => user.id === updatedUser.id);
         if (index !== -1) {
             this.users[index] = updatedUser;
             return updatedUser;
         }
-        return null;
+        throw new Error('Пользователь не найден');
     }
 };
 
