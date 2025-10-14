@@ -56,7 +56,7 @@ const UsersTable = ({ users, deleteUser, updateUser }) => {
                         className="edit-input"
                     />
                     <div className="edit-buttons">
-                        <button className="edit-confirm-btn" onClick={saveEditing}>OK</button>
+                        <button className="edit-confirm-btn" onClick={saveEditing}>ОК</button>
                         <button className="edit-cancel-btn" onClick={cancelEditing}>Отмена</button>
                     </div>
                 </div>

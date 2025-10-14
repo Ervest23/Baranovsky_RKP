@@ -1,7 +1,7 @@
 import './App.css';
-import UsersAPI from "./api/services";
-import UsersTable from "./components/Table";
-import UserForm from "./components/Form";
+import UsersAPI from "../../api/services";
+import UsersTable from "../../components/Table";
+import UserForm from "../../components/Form";
 import { useState } from "react";
 
 const initialUsers = UsersAPI.all();
