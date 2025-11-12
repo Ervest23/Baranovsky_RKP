@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addEmployee, clearError } from '../../../store/slices/Employee'; 
 
-const UserForm = ({ onSubmit, initialUser = { firstName: '', lastName: '', email: '' } }) => {
-    const [form, setForm] = useState(initialUser);
-    const [error, setError] = useState('');
+const UserForm = () => {
+    const [form, setForm] = useState({ 
+        firstName: '', 
+        lastName: '', 
+        email: '' 
+    });
+    
+    const dispatch = useDispatch();
+    const { loading, error } = useSelector(state => state.employees);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
-        if (error) setError('');
+        if (error) dispatch(clearError());
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        try {
-            onSubmit(form);
-            setForm(initialUser); 
-            setError('');
-        } catch (err) {
-            setError(err.message);
+        if (form.firstName.trim() && form.lastName.trim() && form.email.trim()) {
+            dispatch(addEmployee(form));
+            setForm({ firstName: '', lastName: '', email: '' });
         }
     };
 
@@ -29,6 +34,7 @@ const UserForm = ({ onSubmit, initialUser = { firstName: '', lastName: '', email
                     placeholder="Имя"
                     value={form.firstName}
                     onChange={handleChange}
+                    disabled={loading}
                 />
                 <input
                     type="text"
@@ -36,6 +42,7 @@ const UserForm = ({ onSubmit, initialUser = { firstName: '', lastName: '', email
                     placeholder="Фамилия"
                     value={form.lastName}
                     onChange={handleChange}
+                    disabled={loading}
                 />
                 <input
                     type="email"
@@ -43,15 +50,18 @@ const UserForm = ({ onSubmit, initialUser = { firstName: '', lastName: '', email
                     placeholder="Email"
                     value={form.email}
                     onChange={handleChange}
+                    disabled={loading}
                 />
-                <button className="add-btn" onClick={handleSubmit}>
-                    Добавить
+                <button 
+                    className="add-btn" 
+                    onClick={handleSubmit}
+                    disabled={loading}
+                >
+                    {loading ? 'Добавление...' : 'Добавить'}
                 </button>
             </div>
-            
-            {error && <p className="error">{error}</p>}
         </>
     );
 };
 
-export default UserForm;
+export default UserForm; 

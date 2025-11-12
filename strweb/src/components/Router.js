@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from '../pages/login/Login';
-import App from '../pages/students/App';
+import Login from '../pages/login/Login.jsx'; 
+import Employees from '../pages/employees/Employees.jsx';
 
 const AppRouter = () => {
     return (
         <Router>
             <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="/students" element={<App />} />
+                <Route path="/employees" element={<Employees />} />
                 <Route path="/" element={<Navigate to="/login" replace />} />
             </Routes>
         </Router>
