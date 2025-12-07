@@ -1,14 +1,7 @@
-import { loginUser, logout, clearError } from './slices/Auth';
+import { loginUser, logout, clearError, accounts } from './slices/Auth';
 
 export const loginWithDemo = (demoUsername) => (dispatch) => {
-    const demoAccounts = {
-        slava: '1111',
-        ilya: '1111', 
-        maxim: '1111',
-        artur: '1111'
-    };
-    
-    const password = demoAccounts[demoUsername];
+    const password = accounts[demoUsername];
     if (password) {
         dispatch(loginUser({ username: demoUsername, password }));
     }

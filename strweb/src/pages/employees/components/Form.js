@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addEmployee, clearError } from '../../../store/slices/Employee'; 
+import { addEmployee, clearError } from '../../../store/slices/Employee';
+import { TextField, Button, Box } from '@mui/material';
 
 const UserForm = () => {
     const [form, setForm] = useState({ 
@@ -26,41 +27,40 @@ const UserForm = () => {
     };
 
     return (
-        <>
-            <div className="add-user-form">
-                <input
-                    type="text"
-                    name="firstName"
-                    placeholder="Имя"
-                    value={form.firstName}
-                    onChange={handleChange}
-                    disabled={loading}
-                />
-                <input
-                    type="text"
-                    name="lastName"
-                    placeholder="Фамилия"
-                    value={form.lastName}
-                    onChange={handleChange}
-                    disabled={loading}
-                />
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={form.email}
-                    onChange={handleChange}
-                    disabled={loading}
-                />
-                <button 
-                    className="add-btn" 
-                    onClick={handleSubmit}
-                    disabled={loading}
-                >
-                    {loading ? 'Добавление...' : 'Добавить'}
-                </button>
-            </div>
-        </>
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', gap: 2, mb: 2 }}>
+            <TextField
+                label="Имя"
+                name="firstName"
+                value={form.firstName}
+                onChange={handleChange}
+                disabled={loading}
+                required
+            />
+            <TextField
+                label="Фамилия"
+                name="lastName"
+                value={form.lastName}
+                onChange={handleChange}
+                disabled={loading}
+                required
+            />
+            <TextField
+                label="Email"
+                name="email"
+                type="email"
+                value={form.email}
+                onChange={handleChange}
+                disabled={loading}
+                required
+            />
+            <Button
+                type="submit"
+                variant="contained"
+                disabled={loading}
+            >
+                {loading ? 'Добавление...' : 'Добавить'}
+            </Button>
+        </Box>
     );
 };
 

@@ -1,14 +1,23 @@
 import React from 'react';
 import LoginForm from './components/LoginForm';
-import './Login.css';
+import { Container, Paper, Box } from '@mui/material';
 
 const Login = () => {
     return (
-        <div className="login-container">
-            <div className="login-form">
-                <LoginForm />
-            </div>
-        </div>
+        <Container component="main" maxWidth="sm">
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Paper elevation={3} sx={{ padding: 4, width: '100%' }}>
+                    <LoginForm />
+                </Paper>
+            </Box>
+        </Container>
     );
 };
 

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchEmployees, clearError } from '../../store/slices/Employee'; 
+import { fetchEmployees, clearError } from '../../store/slices/Employee';
 import UserForm from './components/Form';
 import UsersTable from './components/Table';
-import './Employees.css';
+import { Container, Typography, Alert, Box, CircularProgress } from '@mui/material';
 
 const Employees = () => {
   const { employees, loading, error } = useSelector(state => state.employees);
@@ -19,32 +19,28 @@ const Employees = () => {
 
   if (loading) {
     return (
-      <div className="App">
-        <div className="container">
-          <div>Загрузка сотрудников...</div>
-        </div>
-      </div>
+      <Container maxWidth="lg" sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+        <CircularProgress />
+        <Typography sx={{ ml: 2 }}>Загрузка сотрудников...</Typography>
+      </Container>
     );
   }
 
   return (
-    <div className="App">
-      <div className="container">
-        <h1>Студенты ИТ-13</h1>
-        
-        {error && (
-          <div className="error">
-            {error}
-            <button onClick={handleClearError} style={{ marginLeft: '10px' }}>
-              ×
-            </button>
-          </div>
-        )}
-        
-        <UserForm />
-        <UsersTable employees={employees} />
-      </div>
-    </div>
+    <Container maxWidth="lg" sx={{ mt: 4 }}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Студенты ИТ-13
+      </Typography>
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }} onClose={handleClearError}>
+          {error}
+        </Alert>
+      )}
+
+      <UserForm />
+      <UsersTable employees={employees} />
+    </Container>
   );
 };
 

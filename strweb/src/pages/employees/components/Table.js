@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteEmployee, updateEmployee } from '../../../store/slices/Employee'; 
+import { deleteEmployee, updateEmployee } from '../../../store/slices/Employee';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    TextField,
+    Button,
+    Box
+} from '@mui/material';
 
 const UsersTable = ({ employees }) => {
     const [editing, setEditing] = useState(null);
@@ -45,67 +57,64 @@ const UsersTable = ({ employees }) => {
 
         if (isEditingCell) {
             return (
-                <div className="edit-container">
-                    <input
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <TextField
+                        size="small"
                         type={field === 'email' ? 'email' : 'text'}
                         value={editValue}
                         onChange={(e) => setEditValue(e.target.value)}
                         onKeyDown={handleKeyPress}
                         autoFocus
-                        className="edit-input"
                     />
-                    <div className="edit-buttons">
-                        <button className="edit-confirm-btn" onClick={saveEditing}>
-                            ОК
-                        </button>
-                        <button className="edit-cancel-btn" onClick={cancelEditing}>
-                            Отмена
-                        </button>
-                    </div>
-                </div>
+                    <Button size="small" onClick={saveEditing}>ОК</Button>
+                    <Button size="small" onClick={cancelEditing}>Отмена</Button>
+                </Box>
             );
         }
 
         return (
-            <div 
-                className="editable-cell"
+            <TableCell
                 onDoubleClick={() => startEditing(user, field)}
+                sx={{ cursor: 'pointer' }}
             >
                 {value}
-            </div>
+            </TableCell>
         );
     };
 
     return (
-        <table className="users-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Имя</th>
-                    <th>Фамилия</th>
-                    <th>Email</th>
-                    <th>Действие</th>
-                </tr>
-            </thead>
-            <tbody>
-                {employees.map(user => (
-                    <tr key={user.id}>
-                        <td>{user.id}</td>
-                        <td>{renderCell(user, 'firstName', user.firstName)}</td>
-                        <td>{renderCell(user, 'lastName', user.lastName)}</td>
-                        <td>{renderCell(user, 'email', user.email)}</td>
-                        <td>
-                            <button
-                                className="delete-btn"
-                                onClick={() => handleDeleteUser(user.id)}
-                            >
-                                Удалить
-                            </button>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell>Имя</TableCell>
+                        <TableCell>Фамилия</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Действие</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {employees.map(user => (
+                        <TableRow key={user.id}>
+                            <TableCell>{user.id}</TableCell>
+                            {renderCell(user, 'firstName', user.firstName)}
+                            {renderCell(user, 'lastName', user.lastName)}
+                            {renderCell(user, 'email', user.email)}
+                            <TableCell>
+                                <Button
+                                    variant="outlined"
+                                    color="error"
+                                    onClick={() => handleDeleteUser(user.id)}
+                                >
+                                    Удалить
+                                </Button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };
 

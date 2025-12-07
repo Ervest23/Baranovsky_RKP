@@ -1,24 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const accounts = [
-  { username: 'slava', password: '1111' },
-  { username: 'ilya', password: '1111' },
-  { username: 'maxim', password: '1111' },
-  { username: 'artur', password: '1111' }
-];
+export const accounts = {
+  slava: '1111',
+  ilya: '1111',
+  maxim: '1111',
+  artur: '1111'
+};
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ username, password }, { rejectWithValue }) => {
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const user = accounts.find(acc => 
-        acc.username === username && acc.password === password
-      );
 
-      if (user) {
-        return { username: user.username };
+      if (accounts[username] === password) {
+        return { username };
       } else {
         return rejectWithValue('Неверное имя пользователя или пароль');
       }
